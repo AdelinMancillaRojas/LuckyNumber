@@ -1,112 +1,111 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+import React, { useState } from 'react'
+import { Alert, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 
-import React from 'react';
-import type {Node} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+const App = () =>{
+  const [name, SetName] = useState("");
+  const [edadI, setEdad] = useState(0);
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+  const validacion = () =>{
+    let edad = edadI;
 
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
+    if(name==""){
+      Alert.alert("Put your name")
+    } else{
+      if(edad < 0 || edad%1!=0)
+      {
+        Alert.alert("Put only positive integer values")
+      }else {
+        if(edad<1||edad>99){
+          Alert.alert("Only put values between 1 and 99")
+        }else{
+          let valor1
+          let valor2
+          if(edad<10){
+            edad=edad*7
+            while(edad>10){
+              valor1 = Math.floor(edad/10)
+              valor2 = edad%10
+              edad=valor1+valor2
+            }
+            Alert.alert(edad.toString())
+          }else{
+            while(edad>10){
+              valor1 = Math.floor(edad/10)
+              valor2 = edad%10
+              edad=valor1+valor2
+            }
+            Alert.alert(edad.toString())
+          }
+        }
+      }
+    }
+  }
+
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+    <View style={styles.Body}>
+      <Text style={styles.LuckyNumberText}>Lucky Number</Text>
+      <Image source={require('./src/assets/love.png')} style={styles.Image}/>
+      <TextInput
+        style={styles.Input}
+        placeholder="Enter your name"
+        onChangeText={SetName}
+      ></TextInput>
+
+
+      <TextInput
+        style={styles.Input}
+        placeholder="Enter your age"
+        keyboardType="numeric"
+        onChangeText={setEdad}
+      ></TextInput>
+
+      <TouchableOpacity
+        style={styles.Boton}
+        onPress={validacion}
+      >
+        <Text style={styles.TextoBoton}>Get my number</Text>
+      </TouchableOpacity>
     </View>
-  );
-};
-
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-};
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+  )
+}
 
 export default App;
+
+const styles = StyleSheet.create({
+  Body:{
+    alignItems: 'center',
+    height: '100%',
+    justifyContent: 'center',
+    backgroundColor: '#444CA2'
+  },
+  LuckyNumberText:{
+    fontSize: 30,
+    fontWeight: 'bold',
+    padding: 10,
+    color: 'white'
+  },
+  Image:{
+    width: 150,
+    height: 130,
+  },
+  Input:{
+    width: '50%',
+    borderWidth: 1,
+    backgroundColor: 'white',
+    fontSize: 15,
+    margin: 10,
+    borderRadius: 5,
+  },
+  Boton:{
+    width: '60%',
+    backgroundColor: 'black',
+    borderWidth: 1,
+    borderRadius: 20,
+  },
+  TextoBoton:{
+    fontSize: 20,
+    textAlign: 'center',
+    padding: 10,
+    color: 'white'
+  }
+})
